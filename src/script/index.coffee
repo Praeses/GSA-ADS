@@ -1,0 +1,6 @@
+app =
+  initialize: ->
+
+
+
+app.initialize()
