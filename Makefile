@@ -10,9 +10,9 @@ COFFEE_FILES := $(wildcard src/javascript/*.coffee)
 JS_FILES := $(addprefix www/javascript/,$(notdir $(COFFEE_FILES:.coffee=.js)))
 
 
+
 .PHONEY: all
 all:
-	#cp lib/*.js www/javascript/
 	make js
 	make www/css/app.css
 	make html
@@ -56,3 +56,7 @@ clean:
 run:
 	bundle exec rackup
 
+
+.PHONEY: docker_image
+docker_image:
+	cd src; docker build -t gsa-ads .
