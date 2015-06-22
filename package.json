@@ -1,0 +1,24 @@
+{
+  "name": "gsa_ads",
+  "version": "1.0.0",
+  "description": "GSA-ADS",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha spec/test-helper.coffee --require should --compilers coffee:coffee-script/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Praeses/GSA-ADS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Praeses/GSA-ADS/issues"
+  },
+  "homepage": "https://github.com/Praeses/GSA-ADS#readme",
+  "dependencies": {
+    "coffee-script": "^1.9.3",
+    "mocha": "^2.2.5",
+    "should": "^7.0.1"
+  }
+}
