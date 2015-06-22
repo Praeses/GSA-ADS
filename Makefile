@@ -49,3 +49,9 @@ clean:
 	rm -f www/css/*.css
 	rm -f www/javascript/*.js
 	rm -f www/images/*.*
+
+
+.PHONEY: run
+run:
+	bundle exec rackup
+
