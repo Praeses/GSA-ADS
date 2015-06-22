@@ -3,6 +3,7 @@ HAML_FILES := $(wildcard src/views/*.haml)
 HTML_FILES := $(addprefix www/views/,$(notdir $(HAML_FILES:.haml=.html)))
 
 SCSS_FILES := $(wildcard src/styles/*.scss)
+WIDGET_SCSS_FILES := $(wildcard src/styles/widgets/*.scss)
 CSS_FILES := $(addprefix www/css/,$(notdir $(SCSS_FILES:.scss=.css)))
 
 COFFEE_FILES := $(wildcard src/javascript/*.coffee)
@@ -13,6 +14,7 @@ JS_FILES := $(addprefix www/javascript/,$(notdir $(COFFEE_FILES:.coffee=.js)))
 all:
 	#cp lib/*.js www/javascript/
 	make js
+	make www/css/app.css
 	make html
 	make images
 
@@ -30,10 +32,9 @@ www/views/%.html: src/views/%.haml
 	bundle exec haml $< $@
 
 
-.PHONEY: css
-css: $(CSS_FILES)
-www/css/%.css: src/styles/%.scss
-	bundle exec scss $< $@
+#.PHONEY: css
+www/css/app.css: $(SCSS_FILES) $(WIDGET_SCSS_FILES)
+	bundle exec scss src/styles/app.scss www/css/app.css
 
 
 .PHONEY: js
