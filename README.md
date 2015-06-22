@@ -17,7 +17,7 @@ To build simply type make in a command line once all dependencies are met.
 ##Development
 There is a simple rack file to aid in development.
 To use it type "bundle exec rackup". This will create a small local html server
-to serve the static access under www
+to serve the static assets under www
 
 ##Testing
 run "bundle exec rspec"
