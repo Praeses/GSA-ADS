@@ -56,7 +56,8 @@ clean:
 run:
 	bundle exec rackup
 
-
 .PHONEY: docker_image
 docker_image:
-	cd src; docker build -t gsa-ads .
+	docker build -t gsa-ads .
+
+
