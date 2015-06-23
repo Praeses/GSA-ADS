@@ -28,6 +28,7 @@ images:
 
 .PHONEY: html
 html: $(HTML_FILES)
+	cp www/views/index.html www/index.html
 www/views/%.html: src/views/%.haml
 	bundle exec haml $< $@
 
