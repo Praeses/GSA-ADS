@@ -6,7 +6,7 @@ SCSS_FILES := $(wildcard src/styles/*.scss)
 WIDGET_SCSS_FILES := $(wildcard src/styles/widgets/*.scss)
 CSS_FILES := $(addprefix www/css/,$(notdir $(SCSS_FILES:.scss=.css)))
 
-COFFEE_FILES := $(wildcard src/javascript/*.coffee)
+COFFEE_FILES := $(wildcard src/script/*.coffee)
 JS_FILES := $(addprefix www/javascript/,$(notdir $(COFFEE_FILES:.coffee=.js)))
 
 
@@ -17,6 +17,7 @@ all:
 	make www/css/app.css
 	make html
 	make images
+	make fonts
 
 
 
@@ -24,6 +25,11 @@ all:
 images:
 	#cp src/images/*.png www/images/
 	#cp src/images/*.svg www/images/
+
+
+.PHONEY: fonts
+fonts:
+	cp src/fonts/* www/fonts/
 
 
 .PHONEY: html
@@ -40,7 +46,7 @@ www/css/app.css: $(SCSS_FILES) $(WIDGET_SCSS_FILES)
 
 .PHONEY: js
 js: $(JS_FILES)
-www/javascript/%.js: src/javascript/%.coffee
+www/javascript/%.js: src/script/%.coffee
 	coffee --compile -o www/javascript $<
 
 
@@ -48,9 +54,11 @@ www/javascript/%.js: src/javascript/%.coffee
 .PHONEY: clean
 clean:
 	rm -f www/views/*.html
+	rm -f www/*.html
 	rm -f www/css/*.css
 	rm -f www/javascript/*.js
 	rm -f www/images/*.*
+	rm -f www/fonts/*.*
 
 
 .PHONEY: run

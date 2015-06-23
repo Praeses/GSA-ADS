@@ -1,8 +1,38 @@
 
 
-$background: #AAAAAA;
+$background: lighten(#FFF0A5,10);
 $card: #FFF;
 
-$primary: #325625;
+$primary-text: #fff;
+$primary: #8e2800;
+$primary-l: lighten( $primary,10 );
+$primary-ll: lighten( $primary,20 );
+$primary-lll: lighten( $primary,30 );
+$primary-llll: lighten( $primary,40 );
+$primary-lllll: lighten( $primary,50 );
+$primary-llllll: lighten( $primary,62 );
+$primary-l-faint: lighten( $primary,64 );
+$primary-d: darken( $primary,10 );
+$primary-dd: darken( $primary,20 );
+$primary-ddd: darken( $primary,25 );
+$primary-dddd: darken( $primary,40 );
+$primary-ddddd: darken( $primary,50 );
+
+
+
+$alt-text: #fff;
+$alt: #FFb03B;
+$alt-l: lighten( $alt,10 );
+$alt-ll: lighten( $alt,20 );
+$alt-lll: lighten( $alt,30 );
+$alt-llll: lighten( $alt,40 );
+$alt-lllll: lighten( $alt,50 );
+$alt-d: darken( $alt,10 );
+$alt-dd: darken( $alt,20 );
+$alt-ddd: darken( $alt,30 );
+$alt-dddd: darken( $alt,40 );
+$alt-ddddd: darken( $alt,50 );
+
+
 
 
