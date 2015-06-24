@@ -4,8 +4,29 @@
     %meta{:content => "user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi", :name => "viewport"}/
     %link{:href => "../css/app.css", :rel => "stylesheet", :type => "text/css"}/
 
+
+
   %body
 
-    %nav
-    .card
-      %h1="Empty Card"
+    %script{ type: "text/javascript", src: "/javascript/app.js"}
+
+    .page-container
+
+      .page-navigation
+        #menu-link.page-navigation-hamburger{ title: "GSA ADS" }
+          %i.fa.fa-bars
+        .page-navigation-menu
+          .page-navigation-info
+            %a.logo{:href => "/"}
+              GSA ADS
+        %ul.navigation
+          %li
+            %a{:href => "#", title:"Add Chart"}
+              %i.fa.fa-bar-chart
+              Add Chart
+
+
+      .page-content
+
+        .card
+        %h1="Empty Card"
