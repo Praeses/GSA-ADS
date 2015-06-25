@@ -1,7 +1,13 @@
 .gems
 .sass-cache
 .bundle
-www
+www/*.html
+www/*/*.html
+www/*/*.js
+www/*/*.css
+www/*/*.map
+www/fonts/*
+www/images/*
 node_modules
 .desktop
 data_cache.csv
