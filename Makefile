@@ -1,12 +1,12 @@
 
-HAML_FILES := $(wildcard src/views/*.haml)
-HTML_FILES := $(addprefix www/views/,$(notdir $(HAML_FILES:.haml=.html)))
+HAML_FILES := $(wildcard src/views/html/*.haml)
+HTML_FILES := $(addprefix www/html/,$(notdir $(HAML_FILES:.haml=.html)))
 
-SCSS_FILES := $(wildcard src/styles/*.scss)
-WIDGET_SCSS_FILES := $(wildcard src/styles/widgets/*.scss)
+SCSS_FILES := $(wildcard src/views/styles/*.scss)
+WIDGET_SCSS_FILES := $(wildcard src/views/styles/widgets/*.scss)
 CSS_FILES := $(addprefix www/css/,$(notdir $(SCSS_FILES:.scss=.css)))
 
-COFFEE_FILES := $(wildcard src/script/*.coffee)
+COFFEE_FILES := $(wildcard src/views/script/*.coffee)
 JS_FILES := $(addprefix www/javascript/,$(notdir $(COFFEE_FILES:.coffee=.js)))
 
 
@@ -23,8 +23,8 @@ all:
 
 .PHONEY: images
 images:
-	#cp src/images/*.png www/images/
-	#cp src/images/*.svg www/images/
+	#cp src/views/images/*.png www/images/
+	#cp src/views/images/*.svg www/images/
 
 
 .PHONEY: fonts
@@ -34,27 +34,27 @@ fonts:
 
 .PHONEY: html
 html: $(HTML_FILES)
-	cp www/views/index.html www/index.html
-www/views/%.html: src/views/%.haml
+	cp www/html/index.html www/index.html
+www/html/%.html: src/views/html/%.haml
 	bundle exec haml $< $@
 
 
 #.PHONEY: css
 www/css/app.css: $(SCSS_FILES) $(WIDGET_SCSS_FILES)
-	bundle exec scss src/styles/app.scss www/css/app.css
+	bundle exec scss src/views/styles/app.scss www/css/app.css
 
 
 .PHONEY: js
 js: $(JS_FILES)
-www/javascript/%.js: src/script/%.coffee
+www/javascript/%.js: src/views/script/%.coffee
 	coffee --compile -o www/javascript $<
 
 
 
 .PHONEY: clean
 clean:
-	rm -f www/views/*.html
 	rm -f www/*.html
+	rm -f www/html/*.html
 	rm -f www/css/*.css
 	rm -f www/javascript/*.js
 	rm -f www/images/*.*
@@ -69,4 +69,8 @@ run:
 docker_image:
 	docker build -t gsa-ads .
 
+.PHONEY: test
+test:
+	make all
+	bundle exec rspec && npm test
 

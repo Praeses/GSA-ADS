@@ -22,7 +22,7 @@ RUN npm install
 RUN make all
 
 #run test, all test must pass to build the image
-RUN npm test
+RUN make test
 
 
 #setup site with nginx
