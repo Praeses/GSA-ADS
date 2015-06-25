@@ -5,4 +5,14 @@
   padding: 1em;
   margin: 1em;
   box-shadow: 0 3px 3px rgba(0,0,0,0.3);
+  overflow:hidden;
 }
+
+.card h1{
+  background-color: $alt;
+  color: $alt-text;
+  margin: -0.5em -0.5em 0 -0.5em;
+  padding: 0.5em;
+}
+
+

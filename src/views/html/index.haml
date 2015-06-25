@@ -2,15 +2,12 @@
   %head
     %meta{:charset => "utf-8"}/
     %meta{:content => "user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi", :name => "viewport"}/
-    %link{:href => "../css/app.css", :rel => "stylesheet", :type => "text/css"}/
     %link{:href => "http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.css", :rel => "stylesheet", :type => "text/css"}/
-    
-
+    %link{:href => "/css/app.css", :rel => "stylesheet", :type => "text/css"}/
 
 
   %body
 
-    
 
     .page-container
 
@@ -21,20 +18,19 @@
           .page-navigation-info
             %a.logo{:href => "/"}
               GSA ADS
-        %ul.navigation
-          %li
-            %a{:href => "#", title:"Add Chart"}
-              %i.fa.fa-bar-chart
-              Add Chart
+          %ul.navigation
+            %li
+              %a{:href => "#", title:"Add Chart"}
+                %i.fa.fa-bar-chart
+                Add Chart
 
 
       .page-content
 
         .card
-          %h1="Drug Chart"
-        .card
+          %h1="Number of Drug Events By Day"
           #drugs
-        #chart.chart
+          #chart.chart
 
     %script{ type: "text/javascript", src: "http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"}
     %script{ type: "text/javascript", src: "http://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.11/crossfilter.js"}
