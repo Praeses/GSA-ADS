@@ -6,7 +6,10 @@ csvData = []
 capitalize = (s) ->
   return s.charAt(0).toUpperCase()+s.slice(1)
 
-getData = ->
+clickFirstDrug = ->
+  document.getElementById('drugs').firstChild.firstChild.click()
+
+getData = (callback) ->
   query = 'drug_counts.csv'
   d3.csv query, (error, data) ->
     if error 
@@ -15,9 +18,9 @@ getData = ->
     csvData.forEach (d) ->
       d.dd = dateFormat.parse(d.date)
       return
-    setupHeader()
-    document.getElementById('drugs').firstChild.firstChild.click()
-    #drawChart()
+    if callback != null
+      callback()
+      clickFirstDrug()
     return
   return
 
@@ -25,32 +28,24 @@ setupHeader = ->
   drugs = Object.keys csvData[0]
   parent = document.getElementById('drugs')
   drugs.forEach (d) ->
-    if d == 'date' or d == 'dd'
-      return
+    if d == 'date' or d == 'dd' then return
     cap = capitalize(d)
     label = document.createElement("label")
     radio = document.createElement("input")
     radio.type = "radio"
     radio.name = "drugs"
     radio.value = cap
-    radio.onclick = -> redrawChart(d)
+    radio.onclick = -> drawChart(d)
     label.appendChild(radio)
     label.appendChild(document.createTextNode(cap))
     parent.appendChild(label)
     return
   return
 
-redrawChart = (drug) ->
-  drawChart(drug)
-
 drawChart = (drug) ->
   ndx = crossfilter(csvData)
-  xDimension = ndx.dimension((d) ->
-    d.dd
-  )
-  yGroup = xDimension.group().reduceSum((d) -> 
-  	d[drug]
-  )
+  xDimension = ndx.dimension((d) -> d.dd)
+  yGroup = xDimension.group().reduceSum((d) -> d[drug])
   dc.lineChart('#chart')
   .width(1000)
   .height(500)
@@ -59,14 +54,12 @@ drawChart = (drug) ->
   .elasticY(true)
   .mouseZoomable(true)
   .renderHorizontalGridLines(true)
-  .renderArea(true)
   .brushOn(false)
   .dimension(xDimension)
   .group(yGroup)
-  .yAxisLabel(drug + " Count")
+  .yAxisLabel(capitalize(drug) + " Count")
   .xAxisLabel("Date Received")
-  
   dc.renderAll()
   return
 
-getData()
+getData(setupHeader)
