@@ -1,0 +1,11 @@
+.page-content{ margin-top:5em; }
+
+
+//MOBILE
+@media (max-width: 48em) {}
+
+//FULL SCREEN
+@media (min-width: 48em) {
+  .page-content{ margin-left:3em; }
+}
+

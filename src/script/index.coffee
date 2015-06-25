@@ -1,6 +1,0 @@
-app =
-  initialize: ->
-
-
-
-app.initialize()

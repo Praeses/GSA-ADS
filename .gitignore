@@ -3,3 +3,5 @@
 .bundle
 www
 node_modules
+.desktop
+data_cache.csv

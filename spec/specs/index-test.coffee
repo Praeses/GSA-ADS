@@ -1,5 +1,5 @@
 
-index = require("../../src/script/index.coffee")
+#index = require("../../src/script/index.coffee")
 require("should")
 assert = require("assert")
 
