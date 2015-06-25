@@ -6,14 +6,18 @@ require 'fileutils'
 
 module Services
 
-  class Importer
+  # ***************************************************************
+  # This class is used to pull a full cache copy of the event list
+  # ***************************************************************
+
+  class FullEventListImporter
 
     def initialize
       @drug_events = []
     end
 
     PAGE_SIZE = 100.0
-    DRUG_DATA_CACHE = './data_cache.csv'
+    DRUG_DATA_CACHE = './.cache/full_event_list.csv'
     FIRST_DAY = Date.parse("2003-2-28")
 
     def pull_drug_events

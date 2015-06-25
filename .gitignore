@@ -11,3 +11,4 @@ www/images/*
 node_modules
 .desktop
 data_cache.csv
+.cache
