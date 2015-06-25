@@ -9,10 +9,6 @@ describe "The Sinatra Server" do
     last_response.should be_ok
   end
 
-  it "should have path to query json" do
-  	get '/data.csv'
-  	last_response.should be_ok
-  end
 
 end
 
