@@ -29,5 +29,8 @@ RUN make test
 RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
 RUN rm -Rf /usr/share/nginx/html
 RUN ln -s /src/www /usr/share/nginx/html
-CMD ["nginx"]
+ENV RACK_ENV=production
+
+CMD ["bundle", "exec", "ruby", "server.rb", "-o", "0.0.0.0", "-p 80"]
+#CMD ["nginx"]
 
