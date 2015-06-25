@@ -9,7 +9,7 @@ describe "Services::LocationCountsImporter" do
 		klass.should_not be nil
 	end
 
-	it "should have an API for pulling drug counts by date" do
+	it "should have an API for pulling location counts by date" do
 		subject = klass.new
 		subject.pull(["UNITED STATES", "US", "UNITED KINGDOM", "JAPAN"])
 		#subject.pull("sodium")
