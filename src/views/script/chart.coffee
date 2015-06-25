@@ -5,15 +5,16 @@ dates = []
 
 
 getDateCounts = ->
-  query = endpoint + 'count=receivedate'
-  d3.json query, (error, data) ->
+  query = 'drug_counts.csv'
+  d3.csv query, (error, data) ->
     if error 
       return alert(error)
-    dates = data.results
+    dates = data
     dates.forEach (d) ->
-      d.dd = dateFormat.parse(d.time)
+      d.dd = dateFormat.parse(d.date)
       return
     alert JSON.stringify(dates)
+    drawChart()
     return
   return
 
@@ -22,26 +23,24 @@ drawChart = ->
   xDimension = ndx.dimension((d) ->
     d.dd
   )
-  newgroup = xDimension.group().reduceSum((d) ->
-    d.count
-  )
   yGroup = xDimension.group().reduceSum((d) -> 
-  	d.time
+  	d.sodium
   )
   dc.lineChart('#chart')
   .width(1000)
-  .height(480)
+  .height(500)
   .x(d3.time.scale().domain([new Date(1995, 0, 1),new Date(2016, 11, 31)]))
+  .y(d3.scale.linear().domain([0, 10000]))
   .elasticY(true)
   .mouseZoomable(true)
   .renderHorizontalGridLines(true)
   .renderArea(true)
-  .brushOn(false)
   .dimension(xDimension)
-  .group(newgroup)
+  .group(yGroup)
+  .yAxisLabel("Event Count")
+  .xAxisLabel("Date Received")
   
   dc.renderAll()
   return
 
 getDateCounts()
-drawChart()
