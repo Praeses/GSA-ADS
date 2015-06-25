@@ -1,6 +1,6 @@
 
 HAML_FILES := $(wildcard src/views/html/*.haml)
-HTML_FILES := $(addprefix www/html/,$(notdir $(HAML_FILES:.haml=.html)))
+HTML_FILES := $(addprefix www/views/,$(notdir $(HAML_FILES:.haml=.html)))
 
 SCSS_FILES := $(wildcard src/views/styles/*.scss)
 WIDGET_SCSS_FILES := $(wildcard src/views/styles/widgets/*.scss)
@@ -29,13 +29,13 @@ images:
 
 .PHONEY: fonts
 fonts:
-	cp src/fonts/* www/fonts/
+	cp src/views/fonts/* www/fonts/
 
 
 .PHONEY: html
 html: $(HTML_FILES)
-	cp www/html/index.html www/index.html
-www/html/%.html: src/views/html/%.haml
+	cp www/views/index.html www/index.html
+www/views/%.html: src/views/html/%.haml
 	bundle exec haml $< $@
 
 
@@ -54,7 +54,7 @@ www/javascript/%.js: src/views/script/%.coffee
 .PHONEY: clean
 clean:
 	rm -f www/*.html
-	rm -f www/html/*.html
+	rm -f www/views/*.html
 	rm -f www/css/*.css
 	rm -f www/javascript/*.js
 	rm -f www/images/*.*
