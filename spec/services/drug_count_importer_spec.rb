@@ -10,12 +10,27 @@ describe "Services::DrugCountsImporter" do
 	end
 
 
-	it "should be able to pull the counts for a given drug" do
-    subject = klass.new
-		subject.pull("sodium")
-    subject.unsaved.size.should_not be 0
+	# it "should be able to pull the counts for a given drug" do
+  #   subject = klass.new
+		# subject.pull("sodium")
+  #   subject.unsaved.size.should_not be 0
+	# end
+
+	it "should have an API for pulling drug counts by date" do
+		subject = klass.new
+		subject.pull(["sodium", "aspirin", "hydrochloride", "calcium"])
+		#subject.pull("sodium")
+		subject.unsaved.size.should_not be 0
 	end
 
+	# it "should have an API for caching drug counts by date" do
+		# subject = klass.new
+		# date = Date.parse("2003-2-28")
+		# subject.pull_by_date(date)
+
+		#subject.pull_drug_event_page(1, Services::FullEventListImporter::FIRST_DAY)
+		#subject.drug_events.size.should_not be 0
+	# end
 
 	#it "should be able to determine total entries from meta tag" do
 	#	subject = Services::FullEventListImporter.new

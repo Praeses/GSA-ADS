@@ -63,7 +63,7 @@ clean:
 
 .PHONEY: run
 run:
-	bundle exec rackup
+	bundle exec ruby server.rb -o 0.0.0.0
 
 .PHONEY: docker_image
 docker_image:
