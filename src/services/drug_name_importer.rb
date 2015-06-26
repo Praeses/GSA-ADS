@@ -23,14 +23,14 @@ module Services
   	attr_accessor :unsaved
 
   	def initialize
-      @unsaved = []
+      @unsaved = {}
     end
 
     def pull
     	if @unsaved.size <= 0
 	    	url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"
 	    	get_data(url).each do |result|
-	            @unsaved << result["term"]
+	            @unsaved [result["term"]] = result["count"]
 	        end
     	end
     end
@@ -41,12 +41,12 @@ module Services
 
     def to_csv
       csv = []
-      @unsaved.each do |location|
-        row = [location]
+      @unsaved.each do |k, value|
+        row = [k, value]
         csv << row.to_csv
       end
       csv.sort!
-      csv = ["DRUG\n"] + csv
+      csv = ["DRUG, COUNT\n"] + csv
       csv
     end
 
