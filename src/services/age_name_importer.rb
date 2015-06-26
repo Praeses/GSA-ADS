@@ -31,17 +31,20 @@ module Services
         search_string = ""
         if filter_params.count > 0
           search_string << "&search="
+          param_strings=[]
           if filter_params["locations"]
             search_string << "primarysource.reportercountry:#{filter_params["locations"]}"
           end
           if filter_params["drugs"]
-            search_string << "+AND+patient.drug.medicinalproduct:#{filter_params["drugs"]}"
+            search_string << "patient.drug.medicinalproduct:#{filter_params["drugs"]}"
           end
+
+          search_string << param_strings.reject(&:empty?).join('+AND+')
         end
 	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.patientonsetage.exact"+search_string)
 	    	get_data(url).each do |result|
-	            @unsaved [result["term"]] = result["count"]
-	        end
+          @unsaved [result["term"]] = result["count"]
+        end
     	# end
     end
 
