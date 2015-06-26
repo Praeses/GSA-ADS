@@ -31,6 +31,7 @@ end
 get '/drug_counts.csv' do
 	filter_params = {}
 	filter_params["locations"] = params["locations"]
+	filter_params["ages"] = params["ages"]
 	drug_name_importer.pull(filter_params)
 	drug_name_importer.to_csv
 end
@@ -38,6 +39,15 @@ end
 get '/location_counts.csv' do
 	filter_params = {}
 	filter_params["drugs"] = params["drugs"]
-	location_name_importer.pull
+	filter_params["ages"] = params["ages"]
+	location_name_importer.pull(filter_params)
+	location_name_importer.to_csv
+end
+
+get '/age_counts.csv' do
+	filter_params = {}
+	filter_params["drugs"] = params["drugs"]
+	filter_params["locations"] = params["locations"]
+	location_name_importer.pull(filter_params)
 	location_name_importer.to_csv
 end
