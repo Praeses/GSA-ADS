@@ -7,25 +7,25 @@ require './src/services/location_counts_importer.rb'
 
 set :public_folder, Proc.new { File.join(root, "www") }
 
-DRUG_COUNT_IMPORTER = Services::DrugCountsImporter.new
-DRUG_NAME_IMPORTER = Services::DrugNameImporter.new
-LOCATION_COUNT_IMPORTER = Services::DrugCountsImporter.new
+drug_count_importer = Services::DrugCountsImporter.new
+drug_name_importer = Services::DrugNameImporter.new
+location_count_importer = Services::DrugCountsImporter.new
 
 get '/' do
   File.read(File.join('www', 'index.html'))
 end
 
 get '/drug_counts.csv' do
-	DRUG_COUNT_IMPORTER.pull(["sodium", "aspirin", "hydrochloride", "calcium"])
-	DRUG_COUNT_IMPORTER.to_csv
+	drug_count_importer.pull(["sodium", "aspirin", "hydrochloride", "calcium"])
+	drug_count_importer.to_csv
 end
 
 get '/location_counts.csv' do
-	LOCATION_COUNT_IMPORTER.pull(["UNITED STATES", "CANADA", "UNITED KINGDOM", "JAPAN"])
-	LOCATION_COUNT_IMPORTER.to_csv
+	location_count_importer.pull(["UNITED STATES", "CANADA", "UNITED KINGDOM", "JAPAN"])
+	location_count_importer.to_csv
 end
 
 get '/drug_name.csv' do
-	DRUG_NAME_IMPORTER.pull
-	DRUG_NAME_IMPORTER.to_csv
+	drug_name_importer.pull
+	drug_name_importer.to_csv
 end
