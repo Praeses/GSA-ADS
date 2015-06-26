@@ -2,7 +2,7 @@ API_KEY = 'AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R'
 endpoint = 'https://api.fda.gov/drug/event.json?api_key=' + API_KEY + '&'
 dateFormat = d3.time.format('%Y%m%d')
 csvData = []
-currentDim = 1
+currentDim = 0
 
 
 capitalize = (s) ->
@@ -65,7 +65,9 @@ drawChart = () ->
     dateDim = ndx.dimension((d) -> d.dm)
   else if currentDim == 3
     dateDim = ndx.dimension((d) -> d.dy)
-
+  else
+    dateDim = ndx.dimension((d) -> d.dm)
+    currentDim = 2
   chart
   .width(1000)
   .height(500)

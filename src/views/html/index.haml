@@ -34,10 +34,10 @@
           %h1="Drug Chart"
         .card.mx-container
           .mx-button
-            %input#btnDay{:checked => "", :name => "mx", :type => "radio", :onclick => "redrawChart(1)"}
+            %input#btnDay{:name => "mx", :type => "radio", :onclick => "redrawChart(1)"}
               %label{:for => "btnDay", :unselectable => ""} Day
           .mx-button
-            %input#btnMonth{:name => "mx", :type => "radio", :onclick => "redrawChart(2)"}
+            %input#btnMonth{:checked => "", :name => "mx", :type => "radio", :onclick => "redrawChart(2)"}
               %label{:for => "btnMonth", :unselectable => ""} Month
           .mx-button
             %input#btnYear{:name => "mx", :type => "radio", :onclick => "redrawChart(3)"}
