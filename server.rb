@@ -28,7 +28,7 @@ get '/location_counts.csv' do
 	location_count_importer.to_csv
 end
 
-get '/drug_name.csv' do
+get '/drug_names.csv' do
 	drug_name_importer.pull
 	drug_name_importer.to_csv
 end
