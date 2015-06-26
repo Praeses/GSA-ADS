@@ -7,7 +7,15 @@ require 'fileutils'
 module Services
 
   # ***************************************************************************************************
-  # this Importer is used to pull and cache a copy of the drug event counts per location by day
+  #   this Importer is used to pull and cache a copy of the drug event counts per location by day
+  #   example output:
+  #   DRUG
+  #   ABILIFY
+  #   ACETAMINOPHEN
+  #   ADVAIR DISKUS 100/50
+  #   ALBUTEROL
+  #   ALLOPURINOL
+  #   ...
   # ***************************************************************************************************
 
   class DrugNameImporter
@@ -32,13 +40,14 @@ module Services
     end
 
     def to_csv
-    	csv = @unsaved
-    	csv.sort!
-    	csv = @unsaved.to_csv
-    	# csv = ["Name"] + csv
-      	# csv.join('')
-      	# binding.pry
-      	csv
+      csv = []
+      @unsaved.each do |location|
+        row = [location]
+        csv << row.to_csv
+      end
+      csv.sort!
+      csv = ["DRUG\n"] + csv
+      csv
     end
 
   end
