@@ -35,14 +35,21 @@ module Services
       @unsaved = {}
     end
 
-    def pull
-    	if @unsaved.size <= 0
+    def pull filter_params={}
+    	# if @unsaved.size <= 0#We need to cache based on url instead of just unsaved
+        search_string = ""
+        if filter_params.count > 0
+          search_string << "&search="
+          if filter_params["drugs"]
+            search_string << "primarysource.reportercountry:#{filter_params["drugs"]}"
+          end
+        end
 	    	url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=primarysource.reportercountry.exact"
 	    	get_data(url).each do |result|
           @unsaved [result["term"]] = result["count"]
         end
     	end
-    end
+    # end
 
     def get_data url
       JSON.parse(open(url).read)["results"]

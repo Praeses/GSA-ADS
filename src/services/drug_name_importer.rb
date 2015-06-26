@@ -26,13 +26,20 @@ module Services
       @unsaved = {}
     end
 
-    def pull
-    	if @unsaved.size <= 0
-	    	url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"
+    def pull filter_params={}
+    	# if @unsaved.size <= 0#We need to cache based on url instead of just unsaved
+        search_string = ""
+        if filter_params.count > 0
+          search_string << "&search="
+          if filter_params["locations"]
+            search_string << "primarysource.reportercountry:#{filter_params["locations"]}"
+          end
+        end
+	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"+search_string)
 	    	get_data(url).each do |result|
 	            @unsaved [result["term"]] = result["count"]
 	        end
-    	end
+    	# end
     end
 
     def get_data url

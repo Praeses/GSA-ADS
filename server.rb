@@ -29,11 +29,15 @@ get '/location_events_by_date.csv' do
 end
 
 get '/drug_counts.csv' do
-	drug_name_importer.pull
+	filter_params = {}
+	filter_params["locations"] = params["locations"]
+	drug_name_importer.pull(filter_params)
 	drug_name_importer.to_csv
 end
 
 get '/location_counts.csv' do
+	filter_params = {}
+	filter_params["drugs"] = params["drugs"]
 	location_name_importer.pull
 	location_name_importer.to_csv
 end
