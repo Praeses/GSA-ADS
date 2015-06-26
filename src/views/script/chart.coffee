@@ -63,3 +63,4 @@ drawChart = (drug) ->
   return
 
 getData(setupHeader)
+
