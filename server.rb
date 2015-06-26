@@ -18,22 +18,22 @@ get '/' do
   File.read(File.join('www', 'index.html'))
 end
 
-get '/drug_counts.csv' do
+get '/drug_events_by_date.csv' do
 	drug_count_importer.pull(["sodium", "aspirin", "hydrochloride", "calcium"])
 	drug_count_importer.to_csv
 end
 
-get '/location_counts.csv' do
+get '/location_events_by_date.csv' do
 	location_count_importer.pull(["UNITED STATES", "CANADA", "UNITED KINGDOM", "JAPAN"])
 	location_count_importer.to_csv
 end
 
-get '/drug_names.csv' do
+get '/drug_counts.csv' do
 	drug_name_importer.pull
 	drug_name_importer.to_csv
 end
 
-get '/location_names.csv' do
+get '/location_counts.csv' do
 	location_name_importer.pull
 	location_name_importer.to_csv
 end

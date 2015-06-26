@@ -5,7 +5,7 @@ class DrugChart
   constructor: (@args = {}) ->
     @compositeChart = dc.compositeChart('#compositeChart')
     @dimIndex = 2
-    @args.url= "/drug_counts.csv"
+    @args.url= "/drug_events_by_date.csv"
     @width = document.getElementById("compositeChart").parentNode.offsetWidth - 50
 
   loadingDiv: (visible) =>
