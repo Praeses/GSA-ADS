@@ -32,8 +32,16 @@
 
         .card
           %h1="Drug Chart"
-        .card
-          #drugs
+        .card.mx-container
+          .mx-button
+            %input#btnDay{:checked => "", :name => "mx", :type => "radio", :onclick => "redrawChart(1)"}
+              %label{:for => "btnDay", :unselectable => ""} Day
+          .mx-button
+            %input#btnMonth{:name => "mx", :type => "radio", :onclick => "redrawChart(2)"}
+              %label{:for => "btnMonth", :unselectable => ""} Month
+          .mx-button
+            %input#btnYear{:name => "mx", :type => "radio", :onclick => "redrawChart(3)"}
+              %label{:for => "btnYear", :unselectable => ""} Year
         #chart.chart
 
     %script{ type: "text/javascript", src: "http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"}

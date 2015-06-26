@@ -2,6 +2,8 @@ API_KEY = 'AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R'
 endpoint = 'https://api.fda.gov/drug/event.json?api_key=' + API_KEY + '&'
 dateFormat = d3.time.format('%Y%m%d')
 csvData = []
+currentDim = 1
+
 
 capitalize = (s) ->
   return s.charAt(0).toUpperCase()+s.slice(1)
@@ -24,6 +26,8 @@ getData = (callback) ->
     csvData = data
     csvData.forEach (d) ->
       d.dd = dateFormat.parse(d.date)
+      d.dm = dateFormat.parse(d.date).setDate(1)
+      d.dy = dateFormat.parse(d.date).setMonth(1,1)
       return
     if callback
       callback()
@@ -34,7 +38,7 @@ getDrugList = (object) ->
   list = []
   keys = Object.keys object
   keys.forEach (k) ->
-    if k == 'date' or k == 'dd' then return
+    if k == 'date' or k == 'dd' or k == 'dm' or k == 'dy' then return
     list.push k
     return
   return list
@@ -53,9 +57,14 @@ getCharts = (chart, dim, list) ->
   return group
 
 drawChart = () ->
-  chart = dc.compositeChart('#chart')
   ndx = crossfilter(csvData)
-  dateDim = ndx.dimension((d) -> d.dd)
+  
+  if currentDim == 1
+    dateDim = ndx.dimension((d) -> d.dd)
+  else if currentDim == 2
+    dateDim = ndx.dimension((d) -> d.dm)
+  else if currentDim == 3
+    dateDim = ndx.dimension((d) -> d.dy)
 
   chart
   .width(1000)
@@ -77,5 +86,12 @@ drawChart = () ->
   loadingDiv(false)
   return
 
+window.redrawChart = (num) ->
+  currentDim = num
+  loadingDiv(true)
+  setTimeout drawChart, 1
+  return
+
+chart = dc.compositeChart('#chart')
 getData(drawChart)
 
