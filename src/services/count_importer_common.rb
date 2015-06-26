@@ -2,7 +2,6 @@ require 'open-uri'
 require 'json'
 require 'pry'
 require 'fileutils'
-require './src/services/abstract_importer.rb'
 
 module Services
   module CountImporterCommon
