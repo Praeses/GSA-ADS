@@ -35,5 +35,11 @@ module Services
       end
       true
     end
+
+    def to_csv
+      csv = get_csv(@chems, "DRUG")
+      csv
+    end
+
   end
 end

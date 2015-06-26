@@ -13,20 +13,21 @@ module Services
       true
     end
 
-    def get_csv list
+    def get_csv list, name="NAME"
       csv = []
-     
-      @unsaved.each do |k,values|
-        row = [k]
-        list.each do |chem|
-          row << ( values[chem] || "0" )
-        end
-        
-        csv << row.to_csv
+      if @unsaved
+        @unsaved.each do |k,values|
+          row = [k]
+          list.each do |chem|
+            row << ( values[chem] || "0" )
+          end
+          
+          csv << row.to_csv
 
+        end
       end
       csv.sort!
-      csv = ["date," + list.join(",") + "\n"] + csv
+      csv = [name + ',' + list.join(",") + "\n"] + csv
       csv.join('')
     end
   end

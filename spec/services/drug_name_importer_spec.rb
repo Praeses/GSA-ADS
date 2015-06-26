@@ -15,4 +15,10 @@ describe "Services::DrugNameImporter" do
 		subject.unsaved.size.should_not be 0
 	end
 
+	it "should be able to return data in csv format" do
+		subject = klass.new
+		subject.pull
+		subject.to_csv.should_not be nil
+	end
+
 end

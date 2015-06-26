@@ -3,6 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
+require './src/services/name_importer_common.rb'
 
 module Services
 
@@ -19,6 +20,8 @@ module Services
   # ***************************************************************************************************
 
   class DrugNameImporter
+
+    include Services::NameImporterCommon
   	
   	attr_accessor :unsaved
 
@@ -40,14 +43,7 @@ module Services
     end
 
     def to_csv
-      csv = []
-      @unsaved.each do |location|
-        row = [location]
-        csv << row.to_csv
-      end
-      csv.sort!
-      csv = ["DRUG\n"] + csv
-      csv
+      get_csv("DRUG")
     end
 
   end

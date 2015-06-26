@@ -37,5 +37,10 @@ module Services
       true
     end
 
+    def to_csv
+      csv = get_csv(@locations, "LOCATION")
+      csv
+    end
+
   end
 end
