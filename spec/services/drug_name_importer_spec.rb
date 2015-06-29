@@ -6,13 +6,13 @@ describe "Services::DrugNameImporter" do
   klass = Services::DrugNameImporter
 
 	it "should be defined" do
-		klass.should_not be nil
+		expect(klass).not_to be nil
 	end
 
 	it "should have an API for pulling drug names" do
 		subject = klass.new
 		subject.pull
-		subject.unsaved.size.should_not be 0
+		expect(subject.unsaved.size).not_to be 0
 	end
 
 end
