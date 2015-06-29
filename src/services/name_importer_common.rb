@@ -6,7 +6,7 @@ require 'fileutils'
 
 module Services
   module NameImporterCommon
-    def get_hash url, value
+    def get_hash url
 		JSON.parse(open(url).read)["results"].each do |result|
 	        @unsaved << result["term"]
 		end	

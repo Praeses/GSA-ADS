@@ -32,9 +32,7 @@ module Services
     def pull
     	if @unsaved.size <= 0
 	    	url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"
-	    	get_data(url).each do |result|
-	            @unsaved << result["term"]
-	        end
+	    	get_hash(url)
     	end
     end
 
