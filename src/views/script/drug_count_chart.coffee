@@ -39,7 +39,10 @@ class DrugCountChart
       .dimension(dim)
       .group(group)
       .slicesCap(8)
-      .render()
+
+    @chart.filter = ( () -> )
+    @chart.render()
+
     @loadingDiv(false)
 
 
