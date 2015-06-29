@@ -22,7 +22,7 @@ module Services
   class DrugNameImporter
 
     include Services::NameImporterCommon
-  	
+
   	attr_accessor :unsaved
 
   	def initialize

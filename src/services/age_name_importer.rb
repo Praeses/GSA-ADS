@@ -22,7 +22,7 @@ module Services
   class AgeNameImporter
 
     include Services::NameImporterCommon
-  	
+
   	attr_accessor :unsaved
 
   	def initialize
@@ -46,14 +46,14 @@ module Services
         end
 	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.patientonsetage"+search_string)
 	    	get_hash()
-    	
+
       # end
     end
 
     def to_csv
       csv = []
       @unsaved.each do |k, value|
-        row = [k, value]
+        row = [('%02i' % k), value]
         csv << row.to_csv
       end
       csv.sort!
