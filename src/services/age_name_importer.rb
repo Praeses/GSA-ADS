@@ -45,7 +45,7 @@ module Services
           search_string << param_strings.reject(&:empty?).join('+AND+')
         end
 	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.patientonsetage"+search_string)
-	    	get_hash()
+	    	get_hash(url)
 
       # end
     end

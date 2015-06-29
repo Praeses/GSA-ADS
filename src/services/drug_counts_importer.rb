@@ -22,7 +22,7 @@ module Services
       @chems = []
     end
 
-    def pull drug 
+    def pull drug
       if @unsaved.size <= 0
         list = []
         list << drug
@@ -37,7 +37,7 @@ module Services
     end
 
     def to_csv
-      csv = get_csv(@chems, "DRUG")
+      csv = get_csv(@chems, "date")
       csv
     end
 

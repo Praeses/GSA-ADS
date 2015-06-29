@@ -39,7 +39,10 @@ class LocationCountChart
       .dimension(dim)
       .group(group)
       .cap(6)
-      .render()
+
+    @chart.onClick = () ->
+    @chart.render()
+
     @loadingDiv(false)
 
 
