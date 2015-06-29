@@ -3,7 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
-require './src/services/count_importer_common.rb'
+require './src/services/count_by_date_importer_common.rb'
 
 module Services
 
@@ -11,11 +11,11 @@ module Services
   # this Importer is used to pull and cache a copy of the drug event counts per location by day
   # ***************************************************************************************************
 
-  class LocationCountsImporter
+  class LocationCountsByDateImporter
 
     attr_accessor :unsaved
     FIRST_DAY = Date.parse("2003-2-28")
-    include Services::CountImporterCommon
+    include Services::CountByDateImporterCommon
 
     def initialize
       @unsaved = {}

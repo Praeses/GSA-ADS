@@ -1,9 +1,9 @@
 require File.expand_path '../../spec_helper.rb', __FILE__
-require './src/services/age_name_importer.rb'
+require './src/services/age_count_importer.rb'
 
-describe "Services::AgeNameImporter" do
+describe "Services::AgeCountImporter" do
 
-  klass = Services::LocationNameImporter
+  klass = Services::AgeCountImporter
 
 	it "should be defined" do
 		expect(klass).to_not be nil

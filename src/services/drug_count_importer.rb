@@ -3,7 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
-require './src/services/name_importer_common.rb'
+require './src/services/count_importer_common.rb'
 
 module Services
 
@@ -19,9 +19,9 @@ module Services
   #   ...
   # ***************************************************************************************************
 
-  class DrugNameImporter
+  class DrugCountImporter
 
-    include Services::NameImporterCommon
+    include Services::CountImporterCommon
   	
   	attr_accessor :unsaved
 
