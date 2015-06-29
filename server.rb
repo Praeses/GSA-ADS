@@ -4,28 +4,51 @@ require 'csv'
 require './src/services/drug_counts_importer.rb'
 require './src/services/drug_name_importer.rb'
 require './src/services/location_counts_importer.rb'
+require './src/services/location_name_importer.rb'
+require './src/services/age_name_importer.rb'
 
 set :public_folder, Proc.new { File.join(root, "www") }
 
-DRUG_COUNT_IMPORTER = Services::DrugCountsImporter.new
-DRUG_NAME_IMPORTER = Services::DrugNameImporter.new
-LOCATION_COUNT_IMPORTER = Services::DrugCountsImporter.new
+drug_count_importer = Services::DrugCountsImporter.new
+drug_name_importer = Services::DrugNameImporter.new
+location_count_importer = Services::LocationCountsImporter.new
+location_name_importer =  Services::LocationNameImporter.new
+age_name_importer =  Services::AgeNameImporter.new
 
 get '/' do
   File.read(File.join('www', 'index.html'))
 end
 
+get '/drug_events_by_date.csv' do
+	drug_count_importer.pull(["sodium", "aspirin", "hydrochloride", "calcium"])
+	drug_count_importer.to_csv
+end
+
+get '/location_events_by_date.csv' do
+	location_count_importer.pull(["UNITED STATES", "CANADA", "UNITED KINGDOM", "JAPAN"])
+	location_count_importer.to_csv
+end
+
 get '/drug_counts.csv' do
-	DRUG_COUNT_IMPORTER.pull(["sodium", "aspirin", "hydrochloride", "calcium"])
-	DRUG_COUNT_IMPORTER.to_csv
+	filter_params = {}
+	filter_params["locations"] = params["locations"]
+	filter_params["ages"] = params["ages"]
+	drug_name_importer.pull(filter_params)
+	drug_name_importer.to_csv
 end
 
 get '/location_counts.csv' do
-	LOCATION_COUNT_IMPORTER.pull(["UNITED STATES", "CANADA", "UNITED KINGDOM", "JAPAN"])
-	LOCATION_COUNT_IMPORTER.to_csv
+	filter_params = {}
+	filter_params["drugs"] = params["drugs"]
+	filter_params["ages"] = params["ages"]
+	location_name_importer.pull(filter_params)
+	location_name_importer.to_csv
 end
 
-get '/drug_name.csv' do
-	DRUG_NAME_IMPORTER.pull
-	DRUG_NAME_IMPORTER.to_csv
+get '/age_counts.csv' do
+	filter_params = {}
+	filter_params["drugs"] = params["drugs"]
+	filter_params["locations"] = params["locations"]
+	age_name_importer.pull(filter_params)
+	age_name_importer.to_csv
 end

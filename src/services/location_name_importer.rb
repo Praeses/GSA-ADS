@@ -8,18 +8,27 @@ require './src/services/name_importer_common.rb'
 module Services
 
   # ***************************************************************************************************
-  #   this Importer is used to pull and cache a copy of the drug event counts per location by day
-  #   example output:
-  #   DRUG
-  #   ABILIFY
-  #   ACETAMINOPHEN
-  #   ADVAIR DISKUS 100/50
-  #   ALBUTEROL
-  #   ALLOPURINOL
+  # this Importer is used to pull and cache a copy of all possible locations
+  # example output:
+  #   LOCATION
+  #   "KOREA, REPUBLIC OF"
+  #   ...
+  #   AR
+  #   ARGENTINA
+  #   ...
+  #   AUSTRALIA
+  #   AUSTRIA
+  #   BE
+  #   ...
+  #   COUNTRY NOT SPECIFIED
+  #   CROATIA (local name: Hrvatska)
+  #   CZ
+  #   ...
+  #   IRAN (ISLAMIC REPUBLIC OF)
   #   ...
   # ***************************************************************************************************
 
-  class DrugNameImporter
+  class LocationNameImporter
 
     include Services::NameImporterCommon
   	
@@ -35,26 +44,25 @@ module Services
         if filter_params.count > 0
           search_string << "&search="
           param_strings=[]
-          if filter_params["locations"]
-            search_string << "primarysource.reportercountry:#{filter_params["locations"]}"
+          if filter_params["drugs"]
+            param_strings << "patient.drug.medicinalproduct:#{filter_params["drugs"]}"
           end
           if filter_params["ages"]
-            search_string << "patient.patientonsetage:#{filter_params["ages"]}"
+            param_strings << "patient.patientonsetage:#{filter_params["ages"]}"
           end
 
           search_string << param_strings.reject(&:empty?).join('+AND+')
         end
-	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"+search_string)
-	    	get_hash(url)
+	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=primarysource.reportercountry.exact"+search_string)
+        get_hash(url)
+        # get_data(url).each do |result|
+      #     @unsaved [result["term"]] = result["count"]
+      # end
     	# end
     end
 
-    def get_data url
-      JSON.parse(open(url).read)["results"]
-    end
-
     def to_csv
-      get_csv("DRUG")
+      get_csv("LOCATION")
     end
 
   end

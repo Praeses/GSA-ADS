@@ -1,10 +1,46 @@
 dateFormat = d3.time.format('%Y%m%d')
 
-
 class DrugChart
 
   constructor: (@args = {}) ->
-    @args.url= "/drug_counts.csv"
+    @loadingDiv(true)
+    @compositeChart = dc.compositeChart('#compositeChart')
+    @dimIndex = 2
+    @args.url= "/drug_events_by_date.csv"
+    @width = document.getElementById("compositeChart").parentNode.offsetWidth - 65
+    @wireUpEvents()
+
+
+  wireUpEvents: () =>
+    for elm in document.getElementsByName("drugResolution")
+      elm.nextElementSibling.onclick = @onResolutionChanged
+
+
+  loadingDiv: (visible) =>
+    @loading = visible
+    element = document.getElementById("compositeChart")
+    if visible
+      element.className += " whirl loadChart"
+    else
+      element.className = element.className.replace(" whirl loadChart","")
+    return
+
+
+  getRandomColor: =>
+    return d3.rgb(App.ChartLib.getRandom(255),App.ChartLib.getRandom(255),App.ChartLib.getRandom(255)).toString()
+
+
+  getDrugList: (object) =>
+    list = []
+    keys = Object.keys object
+    keys.forEach (k) ->
+      if k == 'date' or k == 'dd' or k == 'dm' or k == 'dy' then return
+      list.push k
+      return
+    return list
+
+
+  loadChart: () =>
     @getData(@args.url)
 
 
@@ -17,41 +53,77 @@ class DrugChart
     @max_date = dateFormat.parse(data[data.length - 1].date)
     data.forEach (d) ->
       d.dd = dateFormat.parse(d.date)
+      d.dm = dateFormat.parse(d.date).setDate(1)
+      d.dy = dateFormat.parse(d.date).setMonth(1,1)
     @ndx = crossfilter(data)
-    #graph the drug if one has been picked
-    @graphDrug(@drug) if @drug
-
-
-  graphDrug: (drug) =>
-    @drug = drug
-    #deplay the graphing unless the data is ready
-    return unless @ndx
-    @dimension = @ndx.dimension((d) -> d.dd )
-    @group = @dimension.group().reduceSum( (d) => d[@drug] )
+    @drugList = App.ChartLib.findKeys data[0],['date','dd','dm','dy']
     @drawChart()
 
 
+  getDimension: () =>
+    if @dimIndex == 1
+      return @ndx.dimension((d) -> d.dd)
+    else if @dimIndex == 2
+      return @ndx.dimension((d) -> d.dm)
+    else if @dimIndex == 3
+      return @ndx.dimension((d) -> d.dy)
+    else
+      @dimIndex = 2
+      return @ndx.dimension((d) -> d.dm)
+
+
+  getCharts: () =>
+    group = []
+    @drugList.forEach (item) =>
+      group.push(dc.lineChart(@compositeChart)
+        .group(@getGroup(item), App.ChartLib.capitalize(item))
+        .colors([@getRandomColor()])
+        .title((d) => App.ChartLib.getTime(d.x)+' - '+d.y))
+      return
+    return group
+
+
+  getGroup: (item) =>
+    @getDimension().group().reduceSum((d) => d[item])
+
+
   drawChart: () =>
-    dc.lineChart('#chart')
-      .width(1000)
+    @compositeChart
+      .width(@width)
       .height(500)
+      .margins({top:10,right:10,bottom:45,left:55})
       .x(d3.time.scale().domain([@min_date,@max_date]))
-      #.x(d3.time.scale().domain([new Date(1999, 0, 1),new Date(2015, 11, 31)]))
       .y(d3.scale.linear().domain([0, 10000]))
       .elasticY(true)
       .mouseZoomable(true)
+      .legend(dc.legend().x(80).y(10))
       .renderHorizontalGridLines(true)
-      .renderArea(true)
       .brushOn(false)
-      .dimension(@dimension)
-      .group(@group)
-      .yAxisLabel(@drug + " Count")
+      .dimension(@getDimension())
+      .yAxisLabel("Event Count")
       .xAxisLabel("Date Received")
+      .compose(@getCharts())
       .render()
+    @loadingDiv(false)
+
+
+  onResolutionChanged: (e) =>
+    return if @loading
+    @loadingDiv(true)
+    id = e.target.previousElementSibling.id
+    @dimIndex = 1 if id == "btnDay"
+    @dimIndex = 2 if id == "btnMonth"
+    @dimIndex = 3 if id == "btnYear"
+    setTimeout @drawChart, 1
 
 
 
 
-chart = new DrugChart()
-chart.graphDrug("sodium")
+
+
+global_namespace = global if global?
+global_namespace = window if window?
+global_namespace.App = {} unless global_namespace.App
+global_namespace.App.DrugChart = DrugChart
+
 

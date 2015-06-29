@@ -6,7 +6,7 @@ describe "Services::LocationCountsImporter" do
   klass = Services::LocationCountsImporter
 
 	it "should be defined" do
-		klass.should_not be nil
+		expect(klass).not_to be nil
 	end
 
 	it "should have an API for pulling location counts by date" do

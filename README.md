@@ -1,11 +1,13 @@
 GSA-ADS
 ========================
 
+## Site Link
+[gsa-ads.praeses.com](http://gsa-ads.praeses.com)
+
+
 ##Build Status
 [![Build Status](https://travis-ci.org/Praeses/GSA-ADS.svg?branch=dev)](https://travis-ci.org/Praeses/GSA-ADS)
 
-## Site Link
-[![gsa-ads.praeses.com](http://gsa-ads.praeses.com)](http://gsa-ads.praeses.com)
 
 
 ##Build Instructions
@@ -22,9 +24,10 @@ To build simply type make in a command line once all dependencies are met.
 
 
 ##Development
-There is a simple rack file to aid in development.
-To use it type "bundle exec rackup". This will create a small local html server
-to serve the static assets under www
+start the server using 'make run'
+This starts a small sinatra server used to cache api request and format the
+output.
+
 
 ##Testing
-run "npm test"
+run "make test"
