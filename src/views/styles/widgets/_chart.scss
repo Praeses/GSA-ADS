@@ -1,4 +1,28 @@
+.chart
+{
+  width:100%;
+  display: inline-block;
+  overflow:hidden;
+}
+
+.chart.chart-small
+{
+  width:100%;
+}
+
+
 .loadChart
 {
   height: 500px;
+}
+
+
+/* FULL SCREEN */
+@media (min-width: 48em) {
+
+  .chart.chart-small
+  {
+    width:32%;
+  }
+
 }

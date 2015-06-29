@@ -22,7 +22,6 @@ module Services
   class DrugCountImporter
 
     include Services::CountImporterCommon
-  	
   	attr_accessor :unsaved
 
   	def initialize
@@ -47,10 +46,6 @@ module Services
 	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"+search_string)
 	    	get_hash(url)
     	# end
-    end
-
-    def get_data url
-      JSON.parse(open(url).read)["results"]
     end
 
     def to_csv

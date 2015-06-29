@@ -1,12 +1,12 @@
 dateFormat = d3.time.format('%Y%m%d')
 
-class DrugCountChart
+class LocationCountChart
 
   constructor: (@args = {}) ->
-    @args.el = "drugCountChart" unless @args.el
+    @args.el = "locationCountChart" unless @args.el
     @args.el = document.getElementById(@args.el)
-    @chart = dc.pieChart("#" + @args.el.id)
-    @args.url= "/drug_counts.csv"
+    @chart = dc.rowChart("#" + @args.el.id)
+    @args.url= "/location_counts.csv"
     @width = @args.el.parentNode.offsetWidth
 
 
@@ -32,21 +32,20 @@ class DrugCountChart
     @drawChart()
 
   drawChart: () =>
-    dim = @ndx.dimension( (d) -> d["DRUG"] )
-    group = dim.group().reduceSum( (d) -> d[" COUNT"] )
+    dim = @ndx.dimension( (d) -> d["LOCATION"] )
+    group = dim.group().reduceSum( (d) -> parseInt(d[" COUNT"]) )
     @chart
       .width(@width)
       .dimension(dim)
       .group(group)
-      .slicesCap(8)
+      .cap(6)
       .render()
     @loadingDiv(false)
-
 
 
 
 global_namespace = global if global?
 global_namespace = window if window?
 global_namespace.App = {} unless global_namespace.App
-global_namespace.App.DrugCountChart = DrugCountChart
+global_namespace.App.LocationCountChart = LocationCountChart
 
