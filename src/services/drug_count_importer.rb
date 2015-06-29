@@ -3,7 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
-require './src/services/name_importer_common.rb'
+require './src/services/count_importer_common.rb'
 
 module Services
 
@@ -19,10 +19,9 @@ module Services
   #   ...
   # ***************************************************************************************************
 
-  class AgeNameImporter
+  class DrugCountImporter
 
-    include Services::NameImporterCommon
-
+    include Services::CountImporterCommon
   	attr_accessor :unsaved
 
   	def initialize
@@ -38,27 +37,19 @@ module Services
           if filter_params["locations"]
             search_string << "primarysource.reportercountry:#{filter_params["locations"]}"
           end
-          if filter_params["drugs"]
-            search_string << "patient.drug.medicinalproduct:#{filter_params["drugs"]}"
+          if filter_params["ages"]
+            search_string << "patient.patientonsetage:#{filter_params["ages"]}"
           end
 
           search_string << param_strings.reject(&:empty?).join('+AND+')
         end
-	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.patientonsetage"+search_string)
-	    	get_hash()
-
-      # end
+	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"+search_string)
+	    	get_hash(url)
+    	# end
     end
 
     def to_csv
-      csv = []
-      @unsaved.each do |k, value|
-        row = [('%02i' % k), value]
-        csv << row.to_csv
-      end
-      csv.sort!
-      csv = ["AGE, COUNT\n"] + csv
-      csv
+      get_csv("DRUG")
     end
 
   end
