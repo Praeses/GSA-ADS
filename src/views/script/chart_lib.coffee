@@ -26,8 +26,12 @@ ChartLib.getTime = (timestamp) =>
   date = d.getDate()
   return month+' '+date+', '+year
 
-exp = global if global?
-exp = window if window?
-exp.App = {} unless exp.App
-exp.App.ChartLib = ChartLib
+
+
+
+
+global_namespace = global if global?
+global_namespace = window if window?
+global_namespace.App = {} unless global_namespace.App
+global_namespace.App.ChartLib = ChartLib
 

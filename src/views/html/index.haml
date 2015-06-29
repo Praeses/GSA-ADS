@@ -26,26 +26,41 @@
 
 
       .page-content
+        .card
+          %h1="Drug Breakdown"
+          %br
+          %br
+          #drugCountChart
+
 
         .card
           %h1="Number of Drug Events By Day"
-        .card.mx-container
-          .mx-button
-            %input#btnDay{:name => "mx", :type => "radio", :onclick => "chart.changeResolution(1)"}
-              %label{:for => "btnDay", :unselectable => ""} Day
-          .mx-button
-            %input#btnMonth{:checked => "", :name => "mx", :type => "radio", :onclick => "chart.changeResolution(2)"}
-              %label{:for => "btnMonth", :unselectable => ""} Month
-          .mx-button
-            %input#btnYear{:name => "mx", :type => "radio", :onclick => "chart.changeResolution(3)"}
-              %label{:for => "btnYear", :unselectable => ""} Year
-        .card
+          %br
+          %br
+          .mx-container
+            .mx-button
+              %input#btnDay{:name => "drugResolution", :type => "radio"}
+                %label{:for => "btnDay", :unselectable => ""} Day
+            .mx-button
+              %input#btnMonth{:checked => "", :name => "drugResolution", :type => "radio"}
+                %label{:for => "btnMonth", :unselectable => ""} Month
+            .mx-button
+              %input#btnYear{:name => "drugResolution", :type => "radio"}
+                %label{:for => "btnYear", :unselectable => ""} Year
           #compositeChart
 
 
     %script{ type: "text/javascript", src: "http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"}
     %script{ type: "text/javascript", src: "http://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.11/crossfilter.js"}
-    %script{ type: "text/javascript", src: "http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"}
+    %script{ type: "text/javascript", src: "http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.3/dc.js"}
     %script{ type: "text/javascript", src: "/javascript/app.js"}
+
+
+    / NOTE: no minification and aggregation for your viewing plesure
     %script{ type: "text/javascript", src: "/javascript/chart_lib.js"}
     %script{ type: "text/javascript", src: "/javascript/drug_chart.js"}
+    %script{ type: "text/javascript", src: "/javascript/drug_count_chart.js"}
+    %script{ type: "text/javascript", src: "/javascript/app.js"}
+
+
+

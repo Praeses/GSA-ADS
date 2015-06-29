@@ -3,12 +3,21 @@ dateFormat = d3.time.format('%Y%m%d')
 class DrugChart
 
   constructor: (@args = {}) ->
+    @loadingDiv(true)
     @compositeChart = dc.compositeChart('#compositeChart')
     @dimIndex = 2
     @args.url= "/drug_events_by_date.csv"
     @width = document.getElementById("compositeChart").parentNode.offsetWidth - 65
+    @wireUpEvents()
+
+
+  wireUpEvents: () =>
+    for elm in document.getElementsByName("drugResolution")
+      elm.nextElementSibling.onclick = @onResolutionChanged
+
 
   loadingDiv: (visible) =>
+    @loading = visible
     element = document.getElementById("compositeChart")
     if visible
       element.className += " whirl loadChart"
@@ -16,8 +25,10 @@ class DrugChart
       element.className = element.className.replace(" whirl loadChart","")
     return
 
+
   getRandomColor: =>
     return d3.rgb(App.ChartLib.getRandom(255),App.ChartLib.getRandom(255),App.ChartLib.getRandom(255)).toString()
+
 
   getDrugList: (object) =>
     list = []
@@ -28,11 +39,14 @@ class DrugChart
       return
     return list
 
+
   loadChart: () =>
     @getData(@args.url)
 
+
   getData: (url) =>
     d3.csv url, @onData
+
 
   onData: (error, data) =>
     @min_date = dateFormat.parse(data[0].date)
@@ -45,6 +59,7 @@ class DrugChart
     @drugList = App.ChartLib.findKeys data[0],['date','dd','dm','dy']
     @drawChart()
 
+
   getDimension: () =>
     if @dimIndex == 1
       return @ndx.dimension((d) -> d.dd)
@@ -56,6 +71,7 @@ class DrugChart
       @dimIndex = 2
       return @ndx.dimension((d) -> d.dm)
 
+
   getCharts: () =>
     group = []
     @drugList.forEach (item) =>
@@ -66,8 +82,10 @@ class DrugChart
       return
     return group
 
+
   getGroup: (item) =>
     @getDimension().group().reduceSum((d) => d[item])
+
 
   drawChart: () =>
     @compositeChart
@@ -88,12 +106,24 @@ class DrugChart
       .render()
     @loadingDiv(false)
 
-  changeResolution: (num) =>
-    @dimIndex = num
-    @loadingDiv(true)
-    setTimeout @drawChart, 1
-    return
 
-window.chart = new DrugChart()
-chart.loadChart()
+  onResolutionChanged: (e) =>
+    return if @loading
+    @loadingDiv(true)
+    id = e.target.previousElementSibling.id
+    @dimIndex = 1 if id == "btnDay"
+    @dimIndex = 2 if id == "btnMonth"
+    @dimIndex = 3 if id == "btnYear"
+    setTimeout @drawChart, 1
+
+
+
+
+
+
+global_namespace = global if global?
+global_namespace = window if window?
+global_namespace.App = {} unless global_namespace.App
+global_namespace.App.DrugChart = DrugChart
+
 

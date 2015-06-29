@@ -6,7 +6,7 @@ describe "Services::DrugCountsImporter" do
   klass = Services::DrugCountsImporter
 
 	it "should be defined" do
-		klass.should_not be nil
+		expect(klass).not_to be nil
 	end
 
 
@@ -20,7 +20,7 @@ describe "Services::DrugCountsImporter" do
 		subject = klass.new
 		subject.pull(["sodium", "aspirin", "hydrochloride", "calcium"])
 		#subject.pull("sodium")
-		subject.unsaved.size.should_not be 0
+		expect(subject.unsaved.size).not_to be 0
 	end
 
 	 # it "should have an API for caching drug counts by date" do
