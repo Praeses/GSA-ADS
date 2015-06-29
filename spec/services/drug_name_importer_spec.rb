@@ -18,7 +18,7 @@ describe "Services::DrugNameImporter" do
 	it "should be able to return data in csv format" do
 		subject = klass.new
 		subject.pull
-		subject.to_csv.should_not be nil
+		expect(subject.to_csv).to_not be nil
 	end
 
 end
