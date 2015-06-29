@@ -3,6 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
+require './src/services/name_importer_common.rb'
 
 module Services
 
@@ -28,6 +29,8 @@ module Services
   # ***************************************************************************************************
 
   class LocationNameImporter
+
+    include Services::NameImporterCommon
   	
   	attr_accessor :unsaved
 
@@ -51,25 +54,15 @@ module Services
           search_string << param_strings.reject(&:empty?).join('+AND+')
         end
 	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=primarysource.reportercountry.exact"+search_string)
-	    	get_data(url).each do |result|
-          @unsaved [result["term"]] = result["count"]
-        end
-    	end
-    # end
-
-    def get_data url
-      JSON.parse(open(url).read)["results"]
+        get_hash(url)
+        # get_data(url).each do |result|
+      #     @unsaved [result["term"]] = result["count"]
+      # end
+    	# end
     end
 
     def to_csv
-      csv = []
-      @unsaved.each do |k, value|
-        row = [k, value]
-        csv << row.to_csv
-      end
-      csv.sort!
-      csv = ["LOCATION, COUNT\n"] + csv
-      csv
+      get_csv("LOCATION")
     end
 
   end

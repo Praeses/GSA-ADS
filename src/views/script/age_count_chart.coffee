@@ -1,12 +1,12 @@
 dateFormat = d3.time.format('%Y%m%d')
 
-class DrugCountChart
+class AgeCountChart
 
   constructor: (@args = {}) ->
-    @args.el = "drugCountChart" unless @args.el
+    @args.el = "ageCountChart" unless @args.el
     @args.el = document.getElementById(@args.el)
-    @chart = dc.pieChart("#" + @args.el.id)
-    @args.url= "/drug_counts.csv"
+    @chart = dc.barChart("#" + @args.el.id)
+    @args.url= "/age_counts.csv"
     @width = @args.el.parentNode.offsetWidth
 
 
@@ -32,15 +32,24 @@ class DrugCountChart
     @drawChart()
 
   drawChart: () =>
-    dim = @ndx.dimension( (d) -> d["DRUG"] )
+    dim = @ndx.dimension( (d) -> d["AGE"] )
     group = dim.group().reduceSum( (d) -> d[" COUNT"] )
     @chart
       .width(@width)
       .dimension(dim)
       .group(group)
-      .slicesCap(8)
+      .margins({top:10,right:20,bottom:30,left:50})
+      .x(d3.scale.linear().domain([0, 100]))
 
-    @chart.filter = ( () -> )
+    @chart.renderlet (_chart) ->
+    #  console.log "in rederlet"
+    #  _chart.selectAll("rect.bar").on( "click", (d) ->
+    #    console.log "bla"
+    #    _chart.filter(null)
+    #    _chart.filter(d.key)
+    #  )
+    window.ages = @chart
+
     @chart.render()
 
     @loadingDiv(false)
@@ -51,5 +60,5 @@ class DrugCountChart
 global_namespace = global if global?
 global_namespace = window if window?
 global_namespace.App = {} unless global_namespace.App
-global_namespace.App.DrugCountChart = DrugCountChart
+global_namespace.App.AgeCountChart = AgeCountChart
 
