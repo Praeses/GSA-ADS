@@ -3,26 +3,36 @@ class Main
   constructor: () ->
     document.querySelector('.page-navigation').onclick = @closeMenu
     document.getElementById("menu-link").onclick = @toggleMenu
-    @openCharts()
+    setTimeout @openCharts, 0
+    #setTimeout App.app.openCharts, 0
 
   toggleMenu: (e) ->
     e.cancelBubble = true
     el = document.querySelector('.page-container')
     el.classList.toggle('open');
 
-  closeMenu: () ->
+  isMoble: () ->
+    document.body.offsetWidth < 768
+
+
+  closeMenu: () =>
     if document.querySelector('.open')
       el = document.querySelector('.page-container')
       el.classList.toggle('open');
 
-  openCharts: () ->
+  openCharts: () =>
     drug_count = new App.DrugCountChart()
     setTimeout drug_count.loadChart, 0
 
-    drugs = new App.DrugChart()
+    age_count = new App.AgeCountChart()
+    setTimeout age_count.loadChart, 0
+
+    location_count = new App.LocationCountChart()
+    setTimeout location_count.loadChart, 0
+
+    height = 200 if @isMoble()
+    drugs = new App.DrugChart({height: height})
     setTimeout drugs.loadChart, 0
-
-
 
 
 

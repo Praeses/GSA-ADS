@@ -3,7 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
-require './src/services/name_importer_common.rb'
+require './src/services/count_importer_common.rb'
 
 module Services
 
@@ -19,10 +19,9 @@ module Services
   #   ...
   # ***************************************************************************************************
 
-  class DrugNameImporter
+  class AgeCountImporter
 
-    include Services::NameImporterCommon
-  	
+    include Services::CountImporterCommon
   	attr_accessor :unsaved
 
   	def initialize
@@ -30,29 +29,33 @@ module Services
     end
 
     def pull filter_params={}
-    	# if @unsaved.size <= 0#We need to cache based on url instead of just unsaved
-      url=get_url("patient.drug.medicinalproduct.exact", filter_params)
+      url = get_url("patient.patientonsetage", filter_params)
     	get_hash(url)
-    	# end
     end
 
     def get_param_strings filter_params = {}
-      
       param_strings=[]
 
       if filter_params["locations"]
-        param_strings << "primarysource.reportercountry:#{filter_params["locations"]}"
+        search_strings << "primarysource.reportercountry:#{filter_params["locations"]}"
       end
 
-      if filter_params["ages"]
-        param_strings << "patient.patientonsetage:#{filter_params["ages"]}"
+      if filter_params["drugs"]
+        search_strings << "patient.drug.medicinalproduct:#{filter_params["drugs"]}"
       end
 
       param_strings
     end
 
     def to_csv
-      get_csv("DRUG")
+      csv = []
+      @unsaved.each do |k, value|
+        row = [('%02i' % k), value]
+        csv << row.to_csv
+      end
+      csv.sort!
+      csv = ["AGE, COUNT\n"] + csv
+      csv
     end
 
   end
