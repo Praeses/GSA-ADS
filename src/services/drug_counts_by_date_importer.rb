@@ -3,7 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
-require './src/services/count_importer_common.rb'
+require './src/services/count_by_date_importer_common.rb'
 
 module Services
 
@@ -11,8 +11,8 @@ module Services
   # this Importer is used to pull and cache a copy of the drug counts by day
   # *************************************************************************
 
-  class DrugCountsImporter
-    include Services::CountImporterCommon
+  class DrugCountsByDateImporter
+    include Services::CountByDateImporterCommon
 
     attr_accessor :unsaved
     FIRST_DAY = Date.parse("2003-2-28")
@@ -22,7 +22,7 @@ module Services
       @chems = []
     end
 
-    def pull drug 
+    def pull drug
       if @unsaved.size <= 0
         list = []
         list << drug
