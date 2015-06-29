@@ -5,8 +5,8 @@ class DrugChart
   constructor: (@args = {}) ->
     @compositeChart = dc.compositeChart('#compositeChart')
     @dimIndex = 2
-    @args.url= "/drug_counts.csv"
-    @width = document.getElementById("compositeChart").parentNode.offsetWidth - 60
+    @args.url= "/drug_events_by_date.csv"
+    @width = document.getElementById("compositeChart").parentNode.offsetWidth - 65
 
   loadingDiv: (visible) =>
     element = document.getElementById("compositeChart")
@@ -59,7 +59,10 @@ class DrugChart
   getCharts: () =>
     group = []
     @drugList.forEach (item) =>
-      group.push dc.lineChart(@compositeChart).group(@getGroup(item), App.ChartLib.capitalize(item)).colors([@getRandomColor()])
+      group.push(dc.lineChart(@compositeChart)
+        .group(@getGroup(item), App.ChartLib.capitalize(item))
+        .colors([@getRandomColor()])
+        .title((d) => App.ChartLib.getTime(d.x)+' - '+d.y))
       return
     return group
 
@@ -70,7 +73,7 @@ class DrugChart
     @compositeChart
       .width(@width)
       .height(500)
-      .margins({top:10,right:10,bottom:40,left:50})
+      .margins({top:10,right:10,bottom:45,left:55})
       .x(d3.time.scale().domain([@min_date,@max_date]))
       .y(d3.scale.linear().domain([0, 10000]))
       .elasticY(true)

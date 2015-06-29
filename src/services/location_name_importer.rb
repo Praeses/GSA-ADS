@@ -7,18 +7,27 @@ require 'fileutils'
 module Services
 
   # ***************************************************************************************************
-  #   this Importer is used to pull and cache a copy of the drug event counts per location by day
-  #   example output:
-  #   DRUG
-  #   ABILIFY
-  #   ACETAMINOPHEN
-  #   ADVAIR DISKUS 100/50
-  #   ALBUTEROL
-  #   ALLOPURINOL
+  # this Importer is used to pull and cache a copy of all possible locations
+  # example output:
+  #   LOCATION
+  #   "KOREA, REPUBLIC OF"
+  #   ...
+  #   AR
+  #   ARGENTINA
+  #   ...
+  #   AUSTRALIA
+  #   AUSTRIA
+  #   BE
+  #   ...
+  #   COUNTRY NOT SPECIFIED
+  #   CROATIA (local name: Hrvatska)
+  #   CZ
+  #   ...
+  #   IRAN (ISLAMIC REPUBLIC OF)
   #   ...
   # ***************************************************************************************************
 
-  class DrugNameImporter
+  class LocationNameImporter
   	
   	attr_accessor :unsaved
 
@@ -28,10 +37,10 @@ module Services
 
     def pull
     	if @unsaved.size <= 0
-	    	url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"
+	    	url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=primarysource.reportercountry.exact"
 	    	get_data(url).each do |result|
-	            @unsaved [result["term"]] = result["count"]
-	        end
+          @unsaved [result["term"]] = result["count"]
+        end
     	end
     end
 
@@ -46,7 +55,7 @@ module Services
         csv << row.to_csv
       end
       csv.sort!
-      csv = ["DRUG, COUNT\n"] + csv
+      csv = ["LOCATION, COUNT\n"] + csv
       csv
     end
 

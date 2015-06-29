@@ -18,6 +18,14 @@ ChartLib.findKeys = (object, ignore) =>
 	  return
 	return list
 
+ChartLib.getTime = (timestamp) =>
+  d = new Date(timestamp)
+  months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  year = d.getFullYear()
+  month = months[d.getMonth()]
+  date = d.getDate()
+  return month+' '+date+', '+year
+
 exp = global if global?
 exp = window if window?
 exp.App = {} unless exp.App
