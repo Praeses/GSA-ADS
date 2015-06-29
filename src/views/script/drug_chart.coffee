@@ -3,11 +3,12 @@ dateFormat = d3.time.format('%Y%m%d')
 class DrugChart
 
   constructor: (@args = {}) ->
+    @args.height = @args.height || 500
     @loadingDiv(true)
     @compositeChart = dc.compositeChart('#compositeChart')
     @dimIndex = 2
     @args.url= "/drug_events_by_date.csv"
-    @width = document.getElementById("compositeChart").parentNode.offsetWidth - 65
+    @width = document.getElementById("compositeChart").parentNode.offsetWidth
     @wireUpEvents()
 
 
@@ -90,12 +91,11 @@ class DrugChart
   drawChart: () =>
     @compositeChart
       .width(@width)
-      .height(500)
-      .margins({top:10,right:10,bottom:45,left:55})
+      .height(@args.height)
+      .margins({top:10,right:10,bottom:30,left:50})
       .x(d3.time.scale().domain([@min_date,@max_date]))
       .y(d3.scale.linear().domain([0, 10000]))
       .elasticY(true)
-      .mouseZoomable(true)
       .legend(dc.legend().x(80).y(10))
       .renderHorizontalGridLines(true)
       .brushOn(false)
