@@ -40,7 +40,18 @@ class AgeCountChart
       .group(group)
       .margins({top:10,right:20,bottom:30,left:50})
       .x(d3.scale.linear().domain([0, 100]))
-      .render()
+
+    @chart.renderlet (_chart) ->
+    #  console.log "in rederlet"
+    #  _chart.selectAll("rect.bar").on( "click", (d) ->
+    #    console.log "bla"
+    #    _chart.filter(null)
+    #    _chart.filter(d.key)
+    #  )
+    window.ages = @chart
+
+    @chart.render()
+
     @loadingDiv(false)
 
 
