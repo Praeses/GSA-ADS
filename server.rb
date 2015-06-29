@@ -4,15 +4,16 @@ require 'csv'
 require './src/services/drug_counts_importer.rb'
 require './src/services/drug_name_importer.rb'
 require './src/services/location_counts_importer.rb'
-
 require './src/services/location_name_importer.rb'
+require './src/services/age_name_importer.rb'
 
 set :public_folder, Proc.new { File.join(root, "www") }
 
 drug_count_importer = Services::DrugCountsImporter.new
 drug_name_importer = Services::DrugNameImporter.new
-location_count_importer = Services::DrugCountsImporter.new
+location_count_importer = Services::LocationCountsImporter.new
 location_name_importer =  Services::LocationNameImporter.new
+age_name_importer =  Services::AgeNameImporter.new
 
 get '/' do
   File.read(File.join('www', 'index.html'))
@@ -29,11 +30,25 @@ get '/location_events_by_date.csv' do
 end
 
 get '/drug_counts.csv' do
-	drug_name_importer.pull
+	filter_params = {}
+	filter_params["locations"] = params["locations"]
+	filter_params["ages"] = params["ages"]
+	drug_name_importer.pull(filter_params)
 	drug_name_importer.to_csv
 end
 
 get '/location_counts.csv' do
-	location_name_importer.pull
+	filter_params = {}
+	filter_params["drugs"] = params["drugs"]
+	filter_params["ages"] = params["ages"]
+	location_name_importer.pull(filter_params)
 	location_name_importer.to_csv
+end
+
+get '/age_counts.csv' do
+	filter_params = {}
+	filter_params["drugs"] = params["drugs"]
+	filter_params["locations"] = params["locations"]
+	age_name_importer.pull(filter_params)
+	age_name_importer.to_csv
 end
