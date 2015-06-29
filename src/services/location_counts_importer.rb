@@ -3,6 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
+require './src/services/count_importer_common.rb'
 
 module Services
 
@@ -14,6 +15,7 @@ module Services
 
     attr_accessor :unsaved
     FIRST_DAY = Date.parse("2003-2-28")
+    include Services::CountImporterCommon
 
     def initialize
       @unsaved = {}
@@ -29,34 +31,15 @@ module Services
 
         list.each do |location|
           url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&search=primarysource.reportercountry:#{location}&count=receivedate"
-          get_data(url).each do |result|
-            @unsaved[result["time"]] = {} unless @unsaved[result["time"]]
-            @unsaved[result["time"]][location] = result["count"]
-          end
+          get_hash(url, location)
         end
       end
       true
     end
 
-    def get_data url
-      JSON.parse(open(url).read)["results"]
-    end
-
     def to_csv
-      csv = []
-     
-      @unsaved.each do |k,values|
-        row = [k]
-        @locations.each do |location|
-          row << ( values[location] || "0" )
-        end
-        
-        csv << row.to_csv
-
-      end
-      csv.sort!
-      csv = ["date," + @locations.join(",") + "\n"] + csv
-      csv.join('')
+      csv = get_csv(@locations, "LOCATION")
+      csv
     end
 
   end

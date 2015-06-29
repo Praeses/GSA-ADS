@@ -3,6 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
+require './src/services/name_importer_common.rb'
 
 module Services
 
@@ -19,6 +20,8 @@ module Services
   # ***************************************************************************************************
 
   class DrugNameImporter
+
+    include Services::NameImporterCommon
   	
   	attr_accessor :unsaved
 
@@ -42,9 +45,7 @@ module Services
           search_string << param_strings.reject(&:empty?).join('+AND+')
         end
 	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.drug.medicinalproduct.exact"+search_string)
-	    	get_data(url).each do |result|
-	            @unsaved [result["term"]] = result["count"]
-	        end
+	    	get_hash(url)
     	# end
     end
 
@@ -53,14 +54,7 @@ module Services
     end
 
     def to_csv
-      csv = []
-      @unsaved.each do |k, value|
-        row = [k, value]
-        csv << row.to_csv
-      end
-      csv.sort!
-      csv = ["DRUG, COUNT\n"] + csv
-      csv
+      get_csv("DRUG")
     end
 
   end

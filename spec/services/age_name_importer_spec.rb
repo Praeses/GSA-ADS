@@ -6,13 +6,19 @@ describe "Services::AgeNameImporter" do
   klass = Services::LocationNameImporter
 
 	it "should be defined" do
-		klass.should_not be nil
+		expect(klass).to_not be nil
 	end
 
 	it "should have an API for pulling location names" do
 		subject = klass.new
 		subject.pull
-		subject.unsaved.size.should_not be 0
+		expect(subject.unsaved.size).to_not be 0
+	end
+
+	it "should be able to return data in csv format" do
+		subject = klass.new
+		subject.pull
+		expect(subject.to_csv).to_not be nil
 	end
 
 end

@@ -3,6 +3,7 @@ require 'json'
 require 'pry'
 require 'csv'
 require 'fileutils'
+require './src/services/count_importer_common.rb'
 
 module Services
 
@@ -11,6 +12,7 @@ module Services
   # *************************************************************************
 
   class DrugCountsImporter
+    include Services::CountImporterCommon
 
     attr_accessor :unsaved
     FIRST_DAY = Date.parse("2003-2-28")
@@ -26,37 +28,17 @@ module Services
         list << drug
         list.flatten!
         @chems = @chems + list
-
         list.each do |chem|
           url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&search=patient.drug.medicinalproduct:#{chem}&count=receivedate"
-          get_data(url).each do |result|
-            @unsaved[result["time"]] = {} unless @unsaved[result["time"]]
-            @unsaved[result["time"]][chem] = result["count"]
-          end
+          get_hash(url, chem)
         end
       end
       true
     end
 
-    def get_data url
-      JSON.parse(open(url).read)["results"]
-    end
-
     def to_csv
-      csv = []
-     
-      @unsaved.each do |k,values|
-        row = [k]
-        @chems.each do |chem|
-          row << ( values[chem] || "0" )
-        end
-        
-        csv << row.to_csv
-
-      end
-      csv.sort!
-      csv = ["date," + @chems.join(",") + "\n"] + csv
-      csv.join('')
+      csv = get_csv(@chems, "DRUG")
+      csv
     end
 
   end
