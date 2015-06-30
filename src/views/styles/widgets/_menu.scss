@@ -9,7 +9,7 @@
   .page-navigation-menu{
     transition: all .2s cubic-bezier(.25,.46,.45,.94);
     visibility: visible;
-    width: 75vw;
+    width: 80vw;
     overflow-y: auto;
   }
 
@@ -91,11 +91,10 @@
     ul { width: 20em; }
     li a i{ font-size: 24px }
     li a i{ width: 2em }
-    width: 2.6em;
   }
 
   .open .page-navigation .page-navigation-menu{
-    width: 15em;
+    width: 20em;
   }
 
   ul.navigation{ margin-top: 1em; }
