@@ -48,6 +48,8 @@ class AgeCountChart
       .group(group)
       .margins({top:10,right:20,bottom:30,left:50})
       .x(d3.scale.linear().domain([0, 100]))
+      .brushOn(false)
+      .yAxis().tickFormat(App.ChartLib.formatAxis)
 
     @chart.renderlet (_chart) ->
     #  console.log "in rederlet"

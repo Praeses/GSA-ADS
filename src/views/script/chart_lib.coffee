@@ -26,7 +26,8 @@ ChartLib.getTime = (timestamp) =>
   date = d.getDate()
   return month+' '+date+', '+year
 
-
+ChartLib.formatAxis = (value) =>
+  value.toString().replace(/000([^000]*)$/,'K')
 
 
 
