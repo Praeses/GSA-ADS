@@ -30,26 +30,17 @@ get '/location_events_by_date.csv' do
 end
 
 get '/drug_counts.csv' do
-	filter_params = {}
-	filter_params["locations"] = params["locations"]
-	filter_params["ages"] = params["ages"]
-	data = drug_count_importer.pull(filter_params)
+	data = drug_count_importer.pull()
   data.to_csv
 end
 
 get '/location_counts.csv' do
-	filter_params = {}
-	filter_params["drugs"] = params["drugs"]
-	filter_params["ages"] = params["ages"]
-	data = location_count_importer.pull(filter_params)
+	data = location_count_importer.pull()
   data.to_csv
 end
 
 get '/age_counts.csv' do
-	filter_params = {}
-	filter_params["drugs"] = params["drugs"]
-	filter_params["locations"] = params["locations"]
-	data = age_count_importer.pull(filter_params)
+	data = age_count_importer.pull()
   data.to_csv
 end
 

@@ -8,7 +8,7 @@ module Services
       rows = self.map do|d,hash|
         row = [d]
         columns.each { |col| row << ( hash[col] || "0" ) }
-        row
+        row.to_csv
       end
       rows.sort!
       rows = ['date,' + columns.join(",") + "\n"] + rows
