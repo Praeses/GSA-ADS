@@ -1,4 +1,5 @@
 require 'rack/test'
+require 'pry'
 require 'rspec'
 
 require File.expand_path '../../server.rb', __FILE__
