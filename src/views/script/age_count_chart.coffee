@@ -18,6 +18,14 @@ class AgeCountChart
     visible
 
 
+  visable: (v) =>
+    if v
+      @args.el.parentNode.className += " hidden"
+    else
+      @args.el.parentNode.className = @args.el.className.replace(" hidden","")
+    v
+
+
   loadChart: () =>
     @loadingDiv(true)
     setTimeout @getData, 0
