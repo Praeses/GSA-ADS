@@ -4,9 +4,9 @@ class DrugChart
 
   constructor: (@args = {}) ->
     @args.height = @args.height || 500
+    @loading = false
     @loadingDiv(true)
     @compositeChart = dc.compositeChart('#compositeChart')
-    @dimIndex = 2
     @args.url= "/drug_events_by_date.csv"
     @width = document.getElementById("compositeChart").parentNode.offsetWidth
     @wireUpEvents()
@@ -18,7 +18,6 @@ class DrugChart
 
 
   loadingDiv: (visible) =>
-    @loading = visible
     element = document.getElementById("compositeChart")
     if visible
       element.className += " whirl loadChart"
@@ -61,34 +60,34 @@ class DrugChart
     @drawChart()
 
 
-  getDimension: () =>
-    if @dimIndex == 1
+  getDimension: (resolution) =>
+    if resolution == 1
       return @ndx.dimension((d) -> d.dd)
-    else if @dimIndex == 2
+    else if resolution == 2
       return @ndx.dimension((d) -> d.dm)
-    else if @dimIndex == 3
+    else if resolution == 3
       return @ndx.dimension((d) -> d.dy)
     else
-      @dimIndex = 2
       return @ndx.dimension((d) -> d.dm)
 
 
-  getCharts: () =>
+  getCharts: (dimension) =>
     group = []
     @drugList.forEach (item) =>
       group.push(dc.lineChart(@compositeChart)
-        .group(@getGroup(item), App.ChartLib.capitalize(item))
+        .group(@getGroup(dimension, item), App.ChartLib.capitalize(item))
         .colors([@getRandomColor()])
         .title((d) => App.ChartLib.getTime(d.x)+' - '+d.y))
       return
     return group
 
 
-  getGroup: (item) =>
-    @getDimension().group().reduceSum((d) => d[item])
+  getGroup: (dimension, item) =>
+    dimension.group().reduceSum((d) => d[item])
 
 
-  drawChart: () =>
+  drawChart: (resolution) =>
+    dimension = @getDimension(resolution)
     @compositeChart
       .width(@width)
       .height(@args.height)
@@ -99,22 +98,28 @@ class DrugChart
       .legend(dc.legend().x(80).y(10))
       .renderHorizontalGridLines(true)
       .brushOn(false)
-      .dimension(@getDimension())
+      .dimension(dimension)
       .yAxisLabel("Event Count")
       .xAxisLabel("Date Received")
-      .compose(@getCharts())
+      .compose(@getCharts(dimension))
       .render()
     @loadingDiv(false)
+    setTimeout (=> 
+      @loadingDiv(false)
+      @loading = false), 50
 
 
   onResolutionChanged: (e) =>
-    return if @loading
+    return false if @loading
+    @loading = true
     @loadingDiv(true)
     id = e.target.previousElementSibling.id
-    @dimIndex = 1 if id == "btnDay"
-    @dimIndex = 2 if id == "btnMonth"
-    @dimIndex = 3 if id == "btnYear"
-    setTimeout @drawChart, 1
+    resolution = 2
+    resolution = 1 if id == "btnDay"
+    resolution = 2 if id == "btnMonth"
+    resolution = 3 if id == "btnYear"
+    setTimeout (=> @drawChart resolution), 1
+
 
 
 

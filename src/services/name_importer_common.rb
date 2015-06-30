@@ -5,17 +5,18 @@ require 'pry'
 require 'fileutils'
 
 module Services
-  module CountImporterCommon
+  module NameImporterCommon
+    
     def get_hash url
 
-      JSON.parse(open(url).read)["results"].each do |result|
+			JSON.parse(open(url).read)["results"].each do |result|
         @unsaved [result["term"]] = result["count"]
-      end 
+			end	
 
     end
 
     def get_csv name="NAME"
-      csv = []
+     	csv = []
 
       @unsaved.each do |k, value|
         row = [k, value]

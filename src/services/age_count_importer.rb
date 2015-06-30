@@ -29,23 +29,22 @@ module Services
     end
 
     def pull filter_params={}
-    	# if @unsaved.size <= 0#We need to cache based on url instead of just unsaved
-        search_string = ""
-        if filter_params.count > 0
-          search_string << "&search="
-          param_strings=[]
-          if filter_params["locations"]
-            search_string << "primarysource.reportercountry:#{filter_params["locations"]}"
-          end
-          if filter_params["drugs"]
-            search_string << "patient.drug.medicinalproduct:#{filter_params["drugs"]}"
-          end
+      url = get_url("patient.patientonsetage", filter_params)
+    	get_hash(url)
+    end
 
-          search_string << param_strings.reject(&:empty?).join('+AND+')
-        end
-	    	url = URI::encode("https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&count=patient.patientonsetage"+search_string)
-	    	get_hash(url)
-      # end
+    def get_param_strings filter_params = {}
+      param_strings=[]
+
+      if filter_params["locations"]
+        search_strings << "primarysource.reportercountry:#{filter_params["locations"]}"
+      end
+
+      if filter_params["drugs"]
+        search_strings << "patient.drug.medicinalproduct:#{filter_params["drugs"]}"
+      end
+
+      param_strings
     end
 
     def to_csv
