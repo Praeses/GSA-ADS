@@ -1,11 +1,13 @@
 .card
 {
+  margin:auto;
   display:block;
   background-color: $card;
   padding: 1em;
-  margin: 1em;
   box-shadow: 0 3px 3px rgba(0,0,0,0.3);
   overflow:hidden;
+  margin-bottom:4em;
+  margin-top:1em;
 }
 
 .card h1{
@@ -16,3 +18,9 @@
 }
 
 
+/* FULL SCREEN */
+@media (min-width: 48em) {
+  .card {
+    width: 56.25em;
+  }
+}

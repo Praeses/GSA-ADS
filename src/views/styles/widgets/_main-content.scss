@@ -1,4 +1,18 @@
+@import url(http://fonts.googleapis.com/css?family=Titillium+Web);
+
+
+
 .page-content{ margin-top:5em; }
+
+
+html {
+  background-color: $background;
+  background: url("/images/background.jpg");
+  background-size: 100vw 100vh;
+  background-attachment: fixed;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 300;
+}
 
 
 //MOBILE

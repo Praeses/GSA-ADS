@@ -23,8 +23,7 @@ all:
 
 .PHONEY: images
 images:
-	#cp src/views/images/*.png www/images/
-	#cp src/views/images/*.svg www/images/
+	cp src/views/images/*.* www/images/
 
 
 .PHONEY: fonts
