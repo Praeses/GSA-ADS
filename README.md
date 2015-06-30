@@ -9,7 +9,7 @@ GSA-ADS
 
 ##Build Instructions
 This project is built in a Unix/Linux Environment using the make system.
-To build simply type command 'make' in a command line once all dependencies are met.
+To build simply type the command 'make' in a command line once all dependencies are met.
 To meet the dependencies install: nodejs, ruby, and bundler
 Then run the commands:
 - bundle install --path=.gems
