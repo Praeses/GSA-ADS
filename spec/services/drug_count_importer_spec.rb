@@ -9,16 +9,26 @@ describe "Services::DrugCountImporter" do
 		expect(klass).not_to be nil
 	end
 
+
 	it "should have an API for pulling drug names" do
 		subject = klass.new
-		subject.pull
-		expect(subject.unsaved.size).not_to be 0
+		data = subject.pull
+		expect(data.size).not_to be 0
 	end
+
 
 	it "should be able to return data in csv format" do
 		subject = klass.new
-		subject.pull
-		expect(subject.to_csv).to_not be nil
+		data = subject.pull
+		expect(data.to_csv).to_not be nil
 	end
+
+
+	it "csv should start with DRUG" do
+		subject = klass.new
+		data = subject.pull
+		expect(data.to_csv).to start_with("DRUG")
+	end
+
 
 end

@@ -11,14 +11,14 @@ describe "Services::LocationCountsByDateImporter" do
 
 	it "should have an API for pulling location counts by date" do
 		subject = klass.new
-		subject.pull(["UNITED+STATES", "US", "UNITED+KINGDOM", "JAPAN"])
-		expect(subject.unsaved.size).to_not be 0
+		data = subject.pull(["UNITED+STATES", "US", "UNITED+KINGDOM", "JAPAN"])
+		expect(data.size).to_not be 0
 	end
 
 	it "should be able to return data in csv format" do
 		subject = klass.new
-		subject.pull(["UNITED+STATES", "US", "UNITED+KINGDOM", "JAPAN"])
-		expect(subject.to_csv).to_not be nil
+		data = subject.pull(["UNITED+STATES", "US", "UNITED+KINGDOM", "JAPAN"])
+		expect(data.to_csv).to_not be nil
 	end
 
 end

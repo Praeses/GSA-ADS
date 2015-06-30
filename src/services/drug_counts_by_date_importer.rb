@@ -1,9 +1,5 @@
-require 'open-uri'
-require 'json'
-require 'pry'
-require 'csv'
-require 'fileutils'
-require './src/services/count_by_date_importer_common.rb'
+require './src/services/importer_base.rb'
+require './src/services/modules/by_date_to_csv.rb'
 
 module Services
 
@@ -11,35 +7,31 @@ module Services
   # this Importer is used to pull and cache a copy of the drug counts by day
   # *************************************************************************
 
-  class DrugCountsByDateImporter
-    include Services::CountByDateImporterCommon
+  class DrugCountsByDateImporter < ImporterBase
 
-    attr_accessor :unsaved
-    FIRST_DAY = Date.parse("2003-2-28")
-
-    def initialize
-      @unsaved = {}
-      @chems = []
-    end
 
     def pull drug
-      if @unsaved.size <= 0
-        list = []
-        list << drug
-        list.flatten!
-        @chems = @chems + list
-        list.each do |chem|
-          url = "https://api.fda.gov/drug/event.json?api_key=AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R&search=patient.drug.medicinalproduct:#{chem}&count=receivedate"
-          get_hash(url, chem)
+      data = {}
+      list = []
+      list << drug
+      list.flatten!
+      list.each do |d|
+        url = url(d)
+        get_data(url).each do |result|
+          data[result["time"]] = {} unless data[result["time"]]
+          data[result["time"]][d] = result["count"]
         end
       end
-      true
+      data.extend Services::ByDateToCsv
+      data
     end
 
-    def to_csv
-      csv = get_csv(@chems, "date")
-      csv
+
+    def url drug
+      key = "AFArTyRIont4fZLaVXQVgY2kPv8EeIj4BwD24S3R"
+      "https://api.fda.gov/drug/event.json?api_key=#{key}&search=patient.drug.medicinalproduct:#{drug}&count=receivedate"
     end
+
 
   end
 end
