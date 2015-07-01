@@ -7,14 +7,19 @@ To meet the dependencies install: nodejs, ruby, and bundler
 This will vary based on your Linux environment. It is recommended to install
 these with your distros package manager. For a distro such as Ubuntu this would
 be the following commands
-- sudo apt-get install nodejs
-- sudo apt-get install ruby
-- sudo apt-get install ruby-dev
-- gem install bundler
+```bash
+sudo apt-get install nodejs
+sudo apt-get install ruby
+sudo apt-get install ruby-dev
+gem install bundler
+```
 
 Then in the project folder run the commands:
-- bundle install --path=.gems
-- npm install
+```bash
+bundle install --path=.gems
+npm install
+```
+
 
 
 ##Dependencies
@@ -46,7 +51,7 @@ build the Docker image. It can them be ran locally or exported for use on
 another system.
 
 Alternatively the image can be downloaded from dockerhub with the following command
-docker pull lex148/gsa-ads
+"docker pull lex148/gsa-ads"
 
 
 
