@@ -8,6 +8,7 @@ www/*/*.css
 www/*/*.map
 www/fonts/*
 www/images/*
+log/*
 node_modules
 .desktop
 data_cache.csv

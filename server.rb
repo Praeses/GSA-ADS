@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'newrelic_rpm'
 require 'fileutils'
 require 'csv'
 require './src/services/drug_counts_by_date_importer.rb'
@@ -42,6 +43,10 @@ end
 get '/age_counts.csv' do
 	data = age_count_importer.pull()
   data.to_csv
+end
+
+get '/ping' do
+  Time.now.to_s
 end
 
 
