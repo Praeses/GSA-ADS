@@ -10,5 +10,3 @@ GSA-ADS
 ##Build and Deployment Instructions
 [BUILD.md](https://github.com/Praeses/GSA-ADS/blob/master/BUILD.md)
 
-
-
