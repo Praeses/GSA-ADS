@@ -4,6 +4,7 @@ gem 'haml'
 gem 'sass'
 gem 'rack'
 gem 'sinatra'
+gem 'newrelic_rpm'
 
 group :test do
   gem 'rspec'
