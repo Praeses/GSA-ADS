@@ -22,7 +22,7 @@ class DrugChart
     if visible
       element.className += " whirl loadChart"
     else
-      element.className = element.className.replace(" whirl loadChart","")
+      element.className = element.className.replace("whirl loadChart","")
     return
 
 
@@ -106,7 +106,7 @@ class DrugChart
     @loadingDiv(false)
     setTimeout (=> 
       @loadingDiv(false)
-      @loading = false), 50
+      @loading = false), 100
 
 
   onResolutionChanged: (e) =>

@@ -47,7 +47,7 @@ class LocationCountChart
       .dimension(dim)
       .group(group)
       .cap(6)
-      .xAxis().tickFormat(App.ChartLib.formatAxis)
+      .xAxis().tickValues([0,250000,500000,750000,1000000,1250000,1500000,1750000]).tickFormat(App.ChartLib.formatAxis)
 
     @chart.onClick = () ->
     @chart.render()
